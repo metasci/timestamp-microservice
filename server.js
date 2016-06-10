@@ -18,9 +18,27 @@ app.get('/', function(req, res) {
 app.get('/:datestring', function(req, res){
 	var theDate;
 	if(/^\d{8,}$/.test(req.params.datestring)){
-		theDate = moment
+		theDate = moment(req.params.datestring, "X");
+	}else {
+		theDate = moment(req.params.datestring, "MMMM-D-YYYY");
+	}
+	
+	
+	if(theDate.isValid()){
+		res.json({
+			unix: theDate.format("X"),
+			natural: theDate.format("MMMM D, YYYY")
+			});
+	}else{
+		res.json({
+			unix: null,
+			natural: null
+		});
 	}
 });
+
+
+
 
 
 
